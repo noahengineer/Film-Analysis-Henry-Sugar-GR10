@@ -204,109 +204,96 @@
 <script>
 /* ===== CONFIG: the only part that changes per deck ===== */
 const CONFIG = {
-  title: "Film <span>Analysis</span>",
-  subtitle: "Grade 10 · The Wonderful Story of Henry Sugar · type it word for word",
-  prompt: "Define this term.",
+  title: "Film <span>Terminology</span>",
+  subtitle: "Grade 10 · Henry Sugar · read the definition, name the term",
+  prompt: "Name the term.",
+  showLabel: "Term",
 };
-const EFF = "What effect does this create?";
+// t = the definition (front), a = the term(s) to type
 const CARDS = [
-  // Key filmic terminology + building blocks
-  {t:"Characterisation", g:"Basics", a:["How a character is portrayed filmically."], show:"How a character is portrayed filmically. Can be explicit or implicit (imply)."},
-  {t:"Proxemic distancing", g:"Basics", a:["How close or far away the characters are from each other (or other elements in the frame)"]},
-  {t:"One shot / two shot", g:"Basics", a:["Indicates the number of people in the shot"]},
-  {t:"Point-of-view shot", g:"Basics", a:["The shot is taken from a character's perspective","The audience sees what a character sees."]},
-  {t:"Over-the-shoulder", g:"Basics", a:["A shot from over the shoulder of a character"]},
-  {t:"Cinematography", g:"Basics", a:["The art and technology of capturing visual images for film, including camera movement, composition, and lighting."]},
-  {t:"Take", g:"Basics", a:["An uninterrupted shot."]},
-  {t:"Long take", g:"Basics", a:["A single shot that lasts an extended period without cuts, often used to create tension or immersion."]},
-  {t:"Scene", g:"Basics", a:["Segment of a film that takes place in a single location and time"]},
-  {t:"Sequence", g:"Basics", a:["Multiple scenes that focus on a specific narrative thread."]},
+  // Basics
+  {t:"How a character is portrayed filmically. Can be explicit or implicit.", g:"Basics", a:["Characterisation"]},
+  {t:"How close or far away the characters are from each other (or other elements in the frame).", g:"Basics", a:["Proxemic distancing","Proximity distancing","Proxemics"]},
+  {t:"Indicates the number of people in the shot.", g:"Basics", a:["One shot / two shot","One shot","Two shot"]},
+  {t:"The shot is taken from a character's perspective.", g:"Basics", a:["Point-of-view shot","POV shot","Point-of-view"]},
+  {t:"The audience sees what a character sees.", g:"Basics", a:["Point-of-view shot","POV shot","Point-of-view"]},
+  {t:"A shot from over the shoulder of a character.", g:"Basics", a:["Over-the-shoulder shot","Over-the-shoulder"]},
+  {t:"The art and technology of capturing visual images for film, including camera movement, composition, and lighting.", g:"Basics", a:["Cinematography"]},
+  {t:"An uninterrupted shot.", g:"Basics", a:["Take"]},
+  {t:"A single shot that lasts an extended period without cuts, often used to create tension or immersion.", g:"Basics", a:["Long take"]},
+  {t:"Segment of a film that takes place in a single location and time.", g:"Basics", a:["Scene"]},
+  {t:"Multiple scenes that focus on a specific narrative thread.", g:"Basics", a:["Sequence"]},
   // Shots & angles
-  {t:"Close-up", g:"Shots & Angles", a:["A shot that tightly frames a person or object, emphasising detail and emotion.","A shot showing a character's face or an object in detail."]},
-  {t:"Establishing shot", g:"Shots & Angles", a:["A shot that sets the scene by showing the context or environment, often used at the beginning of a sequence."]},
-  {t:"Long shot", g:"Shots & Angles", a:["Shows the entire body and surroundings.","A shot that sets the scene by showing the context or environment, often used at the beginning of a sequence."]},
-  {t:"Angle", g:"Shots & Angles", a:["The position from which a shot is taken, influencing how the audience perceives characters and events"]},
-  {t:"Oblique angle", g:"Shots & Angles", a:["A shot taken at a slanted or tilted angle, creating a sense of unease or disorientation, often used to convey tension or instability."]},
-  {t:"Framing", g:"Shots & Angles", a:["The boundaries of the image in the film, which define the composition and focus of a shot. Contributes to a feeling of entrapment or freedom.","How objects and characters are positioned within the frame."]},
-  {t:"Lens flare", g:"Shots & Angles", a:["Bright light streaks or spots from the camera lens."]},
-  {t:"Focal point", g:"Shots & Angles", a:["The place in the frame where the viewer's eyes are drawn."], show:"The place in the frame where the viewer's eyes are drawn. This may be established through leading lines, or focus."},
+  {t:"A shot that tightly frames a person or object, emphasising detail and emotion.", g:"Shots & Angles", a:["Close-up","Extreme close-up"]},
+  {t:"A shot showing a character's face or an object in detail.", g:"Shots & Angles", a:["Close-up"]},
+  {t:"A shot that sets the scene by showing the context or environment, often used at the beginning of a sequence.", g:"Shots & Angles", a:["Establishing shot","Long shot","Extreme long shot"]},
+  {t:"Shows the entire body and surroundings.", g:"Shots & Angles", a:["Long shot"]},
+  {t:"The position from which a shot is taken, influencing how the audience perceives characters and events.", g:"Shots & Angles", a:["Angle","Camera angle"]},
+  {t:"A shot taken at a slanted or tilted angle, creating a sense of unease or disorientation, often used to convey tension or instability.", g:"Shots & Angles", a:["Oblique angle"]},
+  {t:"The boundaries of the image in the film, which define the composition and focus of a shot. Contributes to a feeling of entrapment or freedom.", g:"Shots & Angles", a:["Framing"]},
+  {t:"How objects and characters are positioned within the frame.", g:"Shots & Angles", a:["Framing"]},
+  {t:"Bright light streaks or spots from the camera lens.", g:"Shots & Angles", a:["Lens flare"]},
+  {t:"The place in the frame where the viewer's eyes are drawn. This may be established through leading lines, or focus.", g:"Shots & Angles", a:["Focal point"]},
   // Focus
-  {t:"Deep focus", g:"Focus", a:["A technique that keeps both the foreground and background in sharp focus, allowing viewers to see multiple elements in the frame simultaneously."]},
-  {t:"Shallow focus", g:"Focus", a:["A technique that keeps only a specific subject in sharp focus while blurring the background and foreground, drawing attention to that subject."]},
-  {t:"Rack focus", g:"Focus", a:["A technique where the focus shifts from one subject to another within the same shot, guiding the audience's attention as the depth of field changes."]},
+  {t:"A technique that keeps both the foreground and background in sharp focus, allowing viewers to see multiple elements in the frame simultaneously.", g:"Focus", a:["Deep focus"]},
+  {t:"A technique that keeps only a specific subject in sharp focus while blurring the background and foreground, drawing attention to that subject.", g:"Focus", a:["Shallow focus"]},
+  {t:"A technique where the focus shifts from one subject to another within the same shot, guiding the audience's attention as the depth of field changes.", g:"Focus", a:["Rack focus"]},
   // Camera movement
-  {t:"Track", g:"Camera Movement", a:["Any shot in which the camera physically moves any direction to follow the subject.","The camera moves with the subject."]},
-  {t:"Dolly", g:"Camera Movement", a:["A camera movement that involves moving the camera toward (push in) or away (pull out) from the subject, often used to create depth."]},
-  {t:"Smash zoom", g:"Camera Movement", a:["Very abrupt zoom in"]},
-  {t:"Tilt", g:"Camera Movement", a:["A vertical camera movement where the camera tilts up or down."]},
-  {t:"Pan", g:"Camera Movement", a:["A horizontal camera movement that swivels left or right."]},
-  {t:"Static shot", g:"Camera Movement", a:["No movement - steadiness is created by using a tripod","The camera remains still."]},
-  {t:"Handheld", g:"Camera Movement", a:["A camera held directly in hand, resulting in a more dynamic and often shaky shot."]},
-  {t:"Shoulder-mounted", g:"Camera Movement", a:["A camera resting on the camera person's shoulder. Creates steadiness while allowing for a range of movement."]},
+  {t:"Any shot in which the camera physically moves any direction to follow the subject.", g:"Camera Movement", a:["Tracking shot","Track"]},
+  {t:"The camera moves with the subject.", g:"Camera Movement", a:["Tracking shot","Track"]},
+  {t:"A camera movement that involves moving the camera toward (push in) or away (pull out) from the subject, often used to create depth.", g:"Camera Movement", a:["Dolly"]},
+  {t:"A very abrupt zoom in.", g:"Camera Movement", a:["Smash zoom"]},
+  {t:"A vertical camera movement where the camera moves up or down.", g:"Camera Movement", a:["Tilt"]},
+  {t:"A horizontal camera movement that swivels left or right.", g:"Camera Movement", a:["Pan"]},
+  {t:"No movement - steadiness is created by using a tripod.", g:"Camera Movement", a:["Static shot"]},
+  {t:"The camera remains still.", g:"Camera Movement", a:["Static shot"]},
+  {t:"A camera held directly in hand, resulting in a more dynamic and often shaky shot.", g:"Camera Movement", a:["Handheld"]},
+  {t:"A camera resting on the camera person's shoulder. Creates steadiness while allowing for a range of movement.", g:"Camera Movement", a:["Shoulder-mounted"]},
   // Mise-en-scène
-  {t:"Mise-en-scène", g:"Mise-en-scène", a:["Everything placed in front of the camera, including sets, props, actors, and lighting, creating the overall visual style.","Everything we see in the frame"]},
-  {t:"Composition", g:"Mise-en-scène", a:["How elements are arranged within the frame, like framing, balance, and symmetry."]},
-  {t:"Set design / setting", g:"Mise-en-scène", a:["The creation and arrangement of physical environments and locations for a film, including props, furniture, and architectural elements."]},
-  {t:"Costume", g:"Mise-en-scène", a:["The clothing and accessories worn by characters, designed to reflect their personalities, social status, and the film's time period or style."]},
-  {t:"Makeup", g:"Mise-en-scène", a:["Cosmetics used to alter an actor's appearance. May convey age, or simulate injuries and other effects."]},
-  {t:"Props", g:"Mise-en-scène", a:["Moveable objects used by actors"]},
-  {t:"High key vs low key lighting", g:"Mise-en-scène", a:["High key (bright), low key (dim)"], p:"What does each mean?"},
-  {t:"Colour", g:"Mise-en-scène", a:["Used to influence audience emotions. Different colours can evoke specific feelings. They can also highlight character traits, or differentiate scenes and settings."], show:"Used to influence audience emotions. Different colours can evoke specific feelings (e.g., red for passion or danger, blue for calm). They can also highlight character traits, or differentiate scenes and settings."},
-  {t:"Icon", g:"Mise-en-scène", a:["An icon is simply a particular object."]},
-  {t:"Index", g:"Mise-en-scène", a:["If the object is shown again, greater significance is given to it as its meaning is developed."]},
-  {t:"Symbol", g:"Mise-en-scène", a:["It becomes a symbol when its full significance becomes clear and has been linked to a specific concept."]},
+  {t:"Everything placed in front of the camera, including sets, props, actors, and lighting, creating the overall visual style.", g:"Mise-en-scène", a:["Mise-en-scène"]},
+  {t:"Everything we see in the frame.", g:"Mise-en-scène", a:["Mise-en-scène"]},
+  {t:"How elements are arranged within the frame, like framing, balance, and symmetry.", g:"Mise-en-scène", a:["Composition"]},
+  {t:"Both sides of the frame appear balanced and mirror each other.", g:"Mise-en-scène", a:["Symmetrical composition","Symmetry"]},
+  {t:"The creation and arrangement of physical environments and locations for a film, including props, furniture, and architectural elements.", g:"Mise-en-scène", a:["Set design","Setting"]},
+  {t:"The clothing and accessories worn by characters, designed to reflect their personalities, social status, and the film's time period or style.", g:"Mise-en-scène", a:["Costume"]},
+  {t:"Cosmetics used to alter an actor's appearance. May convey age, or simulate injuries and other effects.", g:"Mise-en-scène", a:["Makeup"]},
+  {t:"Moveable objects used by actors.", g:"Mise-en-scène", a:["Props"]},
+  {t:"Bright lighting.", g:"Mise-en-scène", a:["High key lighting","High key"]},
+  {t:"Dim lighting.", g:"Mise-en-scène", a:["Low key lighting","Low key"]},
+  {t:"Used to influence audience emotions. Different shades can evoke specific feelings. They can also highlight character traits, or differentiate scenes and settings.", g:"Mise-en-scène", a:["Colour","Color"]},
+  {t:"Simply a particular object.", g:"Mise-en-scène", a:["Icon"]},
+  {t:"The object is shown again, so greater significance is given to it as its meaning is developed.", g:"Mise-en-scène", a:["Index"]},
+  {t:"The object's full significance becomes clear and has been linked to a specific concept.", g:"Mise-en-scène", a:["Symbol"]},
   // Lines
-  {t:"Vertical lines", g:"Lines", a:["Lines that run up and down, often conveying strength, stability, height or authority."]},
-  {t:"Horizontal lines", g:"Lines", a:["Lines that run left to right, typically associated with tranquillity, peace, stability or calm."]},
-  {t:"Diagonal lines", g:"Lines", a:["Lines that slant at an angle, suggesting movement, tension, urgency or drama."]},
-  {t:"Curved lines", g:"Lines", a:["Lines that bend and flow, often evoking a sense of grace, softness, organic movement, adding a fluid quality to the composition."]},
+  {t:"Lines that run up and down, often conveying strength, stability, height or authority.", g:"Lines", a:["Vertical lines"]},
+  {t:"Lines that run left to right, typically associated with tranquillity, peace, stability or calm.", g:"Lines", a:["Horizontal lines"]},
+  {t:"Lines that slant at an angle, suggesting movement, tension, urgency or drama.", g:"Lines", a:["Diagonal lines"]},
+  {t:"Lines that bend and flow, often evoking a sense of grace, softness, organic movement, adding a fluid quality to the composition.", g:"Lines", a:["Curved lines"]},
   // Editing
-  {t:"Editing", g:"Editing", a:["An aspect of post-production. The process of selecting, arranging, and piecing together shots to create a coherent narrative, affecting pacing and rhythm."]},
-  {t:"Cut", g:"Editing", a:["An abrupt transition from one shot to another."]},
-  {t:"Fade", g:"Editing", a:["A gradual transition to or from a blank screen, signalling a passage of time or a change in scene."]},
-  {t:"Montage", g:"Editing", a:["A technique that combines a series of short shots to condense time."]},
-  {t:"Special effects / post production edits", g:"Editing", a:["Changes made to the original footage to enhance a particular aspects.","Changes made to the original footage to enhance a particular aspect."]},
-  {t:"Motif", g:"Editing", a:["A repeated idea, image, or pattern that is seen throughout a film."]},
+  {t:"An aspect of post-production. The process of selecting, arranging, and piecing together shots to create a coherent narrative, affecting pacing and rhythm.", g:"Editing", a:["Editing"]},
+  {t:"An abrupt transition from one shot to another.", g:"Editing", a:["Cut"]},
+  {t:"A gradual transition to or from a blank screen, signalling a passage of time or a change in scene.", g:"Editing", a:["Fade"]},
+  {t:"A technique that combines a series of short shots to condense time.", g:"Editing", a:["Montage"]},
+  {t:"Changes made to the original footage to enhance a particular aspect.", g:"Editing", a:["Special effects","Post production edits"]},
+  {t:"A repeated idea, image, or pattern that is seen throughout a film.", g:"Editing", a:["Motif"]},
   // Sound
-  {t:"Soundtrack", g:"Sound", a:["The audio component of a film, including dialogue, music, and sound effects."]},
-  {t:"Score", g:"Sound", a:["Original music composed specifically for a film."]},
-  {t:"Leitmotif", g:"Sound", a:["A recurring musical theme associated with a particular character, idea, or emotion."]},
-  {t:"Diegetic", g:"Sound", a:["Sound or elements that exist within the film's story world, such as dialogue, sound effects, and music that characters can hear.","Sounds the characters can hear."]},
-  {t:"Non-diegetic", g:"Sound", a:["Sound or elements that are not part of the story world, such as background music or narration that the characters cannot hear.","Sounds only the audience can hear."]},
-  {t:"Voice-over", g:"Sound", a:["A voice narrates over the visuals, providing context or character insight."]},
-  // Quick revision table
-  {t:"Close-up →", g:"Effects", p:EFF, a:["Shows emotion and detail"]},
-  {t:"Long shot →", g:"Effects", p:EFF, a:["Shows setting and context"]},
-  {t:"High angle →", g:"Effects", p:EFF, a:["Makes character seem weak"]},
-  {t:"Low angle →", g:"Effects", p:EFF, a:["Makes character seem powerful"]},
-  {t:"Deep focus →", g:"Effects", p:EFF, a:["Everything visible and important"]},
-  {t:"Shallow focus →", g:"Effects", p:EFF, a:["Directs attention to one subject"]},
-  {t:"Montage →", g:"Effects", p:EFF, a:["Condenses time"]},
-  {t:"Voice-over →", g:"Effects", p:EFF, a:["Provides information and insight"]},
-  {t:"Symmetry →", g:"Effects", p:EFF, a:["Creates order and balance"]},
-  {t:"Centre framing →", g:"Effects", p:EFF, a:["Directs attention to main subject"]},
-  {t:"Warm colours →", g:"Effects", p:EFF, a:["Creates comfort and warmth"]},
-  {t:"Tracking shot →", g:"Effects", p:EFF, a:["Creates movement and immersion"]},
-  {t:"Diegetic sound →", g:"Effects", p:EFF, a:["Realistic story world"]},
-  {t:"Non-diegetic sound →", g:"Effects", p:EFF, a:["Influences emotions"]},
-  {t:"Symbol →", g:"Effects", p:EFF, a:["Represents deeper meaning"]},
-  // Henry Sugar
-  {t:"Henry Sugar", g:"Henry Sugar", p:"Who is this character?", a:["Wealthy, selfish man who changes through self-discipline and generosity."]},
-  {t:"Imdad Khan", g:"Henry Sugar", p:"Who is this character?", a:["A yogi who learns to see without using his eyes."]},
-  {t:"Dr Chatterjee", g:"Henry Sugar", p:"Who is this character?", a:["The doctor who observes Khan's abilities."]},
-  {t:"Narrator / Roald Dahl", g:"Henry Sugar", p:"What is his role?", a:["Helps tell the story directly to the audience."]},
-  {t:"Themes of the film", g:"Henry Sugar", p:"Name all five.", a:["Greed vs generosity, self-improvement, discipline and perseverance, knowledge and power, storytelling"]},
-  {t:"Why does the film look so unusual?", g:"Henry Sugar", p:"Why does Wes Anderson style it this way?", a:["Wes Anderson wants the audience to feel as though they are watching a storybook or a stage play come to life."]},
-  {t:"Symmetrical composition", g:"Henry Sugar", a:["Both sides of the frame appear balanced and mirror each other."]},
-  {t:"The notebook as an index", g:"Henry Sugar", p:"What does it point towards?", a:["As it repeatedly appears, it points towards knowledge and transformation."]},
-  {t:"The notebook as a symbol", g:"Henry Sugar", p:"What does it eventually symbolise?", a:["Self-improvement, new possibilities, life-changing knowledge"]},
-  {t:"Voice-over narration: why?", g:"Henry Sugar", p:"Why is the story constantly narrated?", a:["Reflects Roald Dahl's storytelling style. Creates a story-within-a-story structure. Helps explain complex events quickly."]},
-  {t:"Henry finds the notebook", g:"Key Scenes", p:"What is the significance of this scene?", a:["Introduces the central conflict and opportunity for change."]},
-  {t:"Imdad Khan demonstrates his ability", g:"Key Scenes", p:"What is the significance of this scene?", a:["Shows the extraordinary ability that inspires Henry."]},
-  {t:"Henry's training", g:"Key Scenes", p:"What is the significance of this scene?", a:["Shows perseverance and self-discipline."]},
-  {t:"Henry uses the skill in gambling", g:"Key Scenes", p:"What is the significance of this scene?", a:["Tests his morals and motivations."]},
-  {t:"Henry gives away his money", g:"Key Scenes", p:"What is the significance of this scene?", a:["Demonstrates his complete transformation."]},
+  {t:"The audio component of a film, including dialogue, music, and sound effects.", g:"Sound", a:["Soundtrack"]},
+  {t:"Original music composed specifically for a film.", g:"Sound", a:["Score"]},
+  {t:"A recurring musical theme associated with a particular character, idea, or emotion.", g:"Sound", a:["Leitmotif"]},
+  {t:"Sound or elements that exist within the film's story world, such as dialogue, sound effects, and music that characters can hear.", g:"Sound", a:["Diegetic sound","Diegetic"]},
+  {t:"Sounds the characters can hear.", g:"Sound", a:["Diegetic sound","Diegetic"]},
+  {t:"Sound or elements that are not part of the story world, such as background music or narration that the characters cannot hear.", g:"Sound", a:["Non-diegetic sound","Non-diegetic"]},
+  {t:"Sounds only the audience can hear.", g:"Sound", a:["Non-diegetic sound","Non-diegetic"]},
+  {t:"A voice narrates over the visuals, providing context or character insight.", g:"Sound", a:["Voice-over","Narration"]},
 ];
+// accept spelling variants: hyphens as spaces / joined, accents dropped; "Term:" line lists the real answers
+CARDS.forEach(c=>{
+  c.show=c.a.join(" / ");
+  const v=new Set(c.a);
+  c.a.forEach(x=>{const y=x.normalize("NFD").replace(/[̀-ͯ]/g,"");[x,y].forEach(z=>{v.add(z.replace(/-/g," "));v.add(z.replace(/-/g,""));})});
+  c.a=[...v];
+});
+document.head.insertAdjacentHTML("beforeend","<style>.term{line-height:1.3;font-weight:600;text-wrap:balance}</style>");
 const THEME = {
   // Wes Anderson storybook: velvet-curtain maroon, mustard + salmon pink, Futura-like type, drifting projector dust
   fonts:{url:"https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap",
@@ -396,7 +383,7 @@ function check(skip=false){
     return `<span class="w ${cls}" style="animation-delay:${.35+i*.04}s">${esc(w.raw)}</span>`;
   }).join("");
   const others=c.a.filter((_,i)=>i!==bestI);
-  $("alt").textContent = c.show ? `Full definition: ${c.show}` : others.length ? `Also accepted: ${others.join(" / ")}` : "";
+  $("alt").textContent = c.show ? `${CONFIG.showLabel||"Full definition"}: ${c.show}` : others.length ? `Also accepted: ${others.join(" / ")}` : "";
   $("yours").innerHTML = typed ? best.T.map((w,i)=>
       SOFT.has(w.n)||best.hitT.has(i)?esc(w.raw):`<span class="extra">${esc(w.raw)}</span>`).join(" ")
     : "<em style='color:var(--muted)'>(skipped)</em>";
